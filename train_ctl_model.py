@@ -22,6 +22,7 @@ from tqdm import tqdm
 from config import cfg
 from modelling.bases import ModelBase
 from utils.misc import run_main
+import sys
 
 
 class CTLModel(ModelBase):
@@ -180,6 +181,8 @@ class CTLModel(ModelBase):
 
 
 if __name__ == "__main__":
+    if sys.platform.startswith('win'):
+        os.environ["PL_TORCH_DISTRIBUTED_BACKEND"] = "gloo"
     parser = argparse.ArgumentParser(description="CLT Model Training")
     parser.add_argument(
         "--config_file", default="", help="path to config file", type=str
