@@ -346,7 +346,7 @@ Script crops the bounding boxes and resizes them to the target size. Width x Hei
     ROOT_DIR = Path(args.root_dir_path)
     TARGET_IMAGE_SIZE = tuple([int(item) for item in args.target_image_size])
     IMAGES_ORG_PATH = ROOT_DIR / "img_highres"
-    LOW_RES_IMAGES_ROOT = ROOT_DIR / "img_low_res"
+    LOW_RES_IMAGES_ROOT = ROOT_DIR / "images_low_res_tmp"
     IMAGES_ROOT_DIR_SPLIT = ROOT_DIR / "images_high_res_tmp"
     IMAGES_ROOT_DIR_SPLIT.mkdir(exist_ok=True)
     CROP_IMAGES_SAVE_ROOT = (
