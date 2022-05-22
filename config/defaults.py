@@ -87,11 +87,12 @@ _C.DATALOADER.USE_RESAMPLING = True
 # ---------------------------------------------------------------------------- #
 _C.SOLVER = CN()
 # Name of optimizer
+
 _C.SOLVER.OPTIMIZER_NAME = "Adam"
 # Number of max epoches
-_C.SOLVER.MAX_EPOCHS = 120
+_C.SOLVER.MAX_EPOCHS = 80
 # Base learning rate
-_C.SOLVER.BASE_LR = 1e-4
+_C.SOLVER.BASE_LR = 3e-3
 # Momentum
 _C.SOLVER.MOMENTUM = 0.9
 # Margin of triplet loss
@@ -112,17 +113,18 @@ _C.SOLVER.LR_SCHEDULER_NAME = "multistep_lr"
 # decay rate of learning rate
 _C.SOLVER.GAMMA = 0.1
 # decay step of learning rate
-_C.SOLVER.LR_STEPS = (40, 70)
+_C.SOLVER.LR_STEPS = (20, 40)
+_C.SOLVER.MIN_LR = 0.00001
 # warm up factor
 _C.SOLVER.USE_WARMUP_LR = True
 # epochs of warm up
-_C.SOLVER.WARMUP_EPOCHS = 10
+_C.SOLVER.WARMUP_EPOCHS = 5
 # Metric name for checkpointing best model
 _C.SOLVER.MONITOR_METRIC_NAME = "mAP"
 # Metric value mode used for checkpointing (max, min, auto)
 _C.SOLVER.MONITOR_METRIC_MODE = "max"
 # epoch number of saving checkpoints
-_C.SOLVER.CHECKPOINT_PERIOD = 50
+_C.SOLVER.CHECKPOINT_PERIOD = 5
 # epoch number of validation
 _C.SOLVER.EVAL_PERIOD = 5
 # Number of images per batch PER GPU
@@ -178,4 +180,4 @@ _C.REPRODUCIBLE = False
 # Number of runs with seeded generators
 _C.REPRODUCIBLE_NUM_RUNS = 1
 # Seed to start with
-_C.REPRODUCIBLE_SEED = 0
+_C.REPRODUCIBLE_SEED = 1

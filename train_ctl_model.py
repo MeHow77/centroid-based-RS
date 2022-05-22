@@ -23,6 +23,7 @@ from config import cfg
 from modelling.bases import ModelBase
 from utils.misc import run_main
 import sys
+import torchsummary
 
 
 class CTLModel(ModelBase):
@@ -57,7 +58,9 @@ class CTLModel(ModelBase):
         unique_classes = len(np.unique(class_labels.detach().cpu()))
 
         # Get backbone features
+        #torchsummary.summary(self.backbone, input_size=(3, 320, 320))
         _, features = self.backbone(x)
+        #print(features.shape)
 
         # query
         contrastive_loss_query, _, _ = self.contrastive_loss(

@@ -37,6 +37,16 @@ def build_optimizer(named_parameters, hparams):
         model_optimizer = optimizer(
         param_groups, lr=hparams.SOLVER.BASE_LR, weight_decay=hparams.SOLVER.WEIGHT_DECAY,
     )
+    elif hparams.SOLVER.OPTIMIZER_NAME == "AdamW":
+        optimizer = torch.optim.AdamW
+        model_optimizer = optimizer(
+        param_groups, lr=hparams.SOLVER.BASE_LR, weight_decay=hparams.SOLVER.WEIGHT_DECAY,
+    )
+    elif hparams.SOLVER.OPTIMIZER_NAME == "Lamb":
+        optimizer = torch.optim.optimizer.Lamb
+        model_optimizer = optimizer(
+        param_groups, lr=hparams.SOLVER.BASE_LR, weight_decay=hparams.SOLVER.WEIGHT_DECAY,
+    )
     else:
         raise NotImplementedError(f"No such optimizer {hparams.SOLVER.OPTIMIZER_NAME}")
 

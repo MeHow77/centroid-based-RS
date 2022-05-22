@@ -20,6 +20,9 @@ from torch.utils.data import DataLoader, DistributedSampler, SequentialSampler
 from callbacks import ModelCheckpointPeriodic
 from datasets import init_dataset
 from modelling.backbones.resnet_ibn_a import resnet50_ibn_a
+import psutil 
+
+
 
 
 def get_distributed_sampler(
@@ -83,6 +86,7 @@ def run_single(cfg, method, logger_save_dir):
         monitor=cfg.SOLVER.MONITOR_METRIC_NAME,
         mode=cfg.SOLVER.MONITOR_METRIC_MODE,
         verbose=True,
+        save_top_k=-1
     )
 
     periodic_checkpointer = ModelCheckpointPeriodic(
@@ -143,6 +147,7 @@ def run_single(cfg, method, logger_save_dir):
                 cfg.MODEL.PRETRAIN_PATH,
                 num_query=dm.num_query,
                 num_classes=dm.num_classes,
+                learning_rate=cfg.SOLVER.BASE_LR,
                 use_multiple_loggers=True if len(loggers) > 1 else False,
             )
         else:
@@ -162,7 +167,9 @@ def run_single(cfg, method, logger_save_dir):
 
 
 def run_main(cfg, method, logger_save_dir):
-    cfg.DATALOADER.NUM_WORKERS = int(multiprocessing.cpu_count() // len(cfg.GPU_IDS))
+    cfg.DATALOADER.NUM_WORKERS = int(psutil.cpu_count(logical = False) // len(cfg.GPU_IDS)-1)
+    
+    
     cfg.LOG_DIR = (
         f"logs/{cfg.DATASETS.NAMES}" if cfg.OUTPUT_DIR == "" else cfg.OUTPUT_DIR
     )

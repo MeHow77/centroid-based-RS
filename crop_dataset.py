@@ -4,10 +4,14 @@ import json
 subsets = ['train', 'test', 'val', 'query', 'gallery']
 #subsets = ['train']
 min_prcnt = 0.1
-size = 256
+size_w = 320
+size_h = 320
 for subset in subsets:
-    f = open(f'datasets/df/full_json/{subset}_reid_cropped_{size}_{size}.json')
+    f = open(f'datasets/df/full_json/{subset}_reid_cropped_{size_w}_{size_h}.json')
     data = json.load(f)
+    
+    anno_len = len(data['annotations'])
+    img_len = len(data['images'])
     
     min_records = int(len(data['images'])*min_prcnt)
     print(f"Min records to obtain: {min_records}")
@@ -32,5 +36,5 @@ for subset in subsets:
         
     # print(cropped_dataset['images'])
     # print(cropped_dataset['annotations'])
-    with open(f'datasets/df/cropped_json/{subset}_reid_cropped_{size}_{size}.json', 'w') as json_f:
+    with open(f'datasets/df/cropped_json/{subset}_reid_cropped_{size_w}_{size_h}.json', 'w') as json_f:
        json.dump(cropped_dataset, json_f)
