@@ -84,15 +84,15 @@ if __name__ == "__main__":
     ### Inference
     log.info("Running inference")
     embeddings, paths = run_inference(
-        model, val_loader, cfg, print_freq=args.print_freq
+        model, val_loader, cfg, print_freq=args.print_freq, use_cuda=True
     )
 
     ### Load gallery data
     LOAD_PATH = Path(args.gallery_data)
     embeddings_gallery = torch.from_numpy(
-        np.load(LOAD_PATH / "embeddings.npy", allow_pickle=True)
+        np.load(Path.joinpath(LOAD_PATH, "embeddings.npy"), allow_pickle=True)
     )
-    paths_gallery = np.load(LOAD_PATH / "paths.npy", allow_pickle=True)
+    paths_gallery = np.load(Path.joinpath(LOAD_PATH, "paths.npy"), allow_pickle=True)
 
     if args.normalize_features:
         embeddings_gallery = torch.nn.functional.normalize(
@@ -106,6 +106,7 @@ if __name__ == "__main__":
 
     # Use GPU if available
     device = torch.device("cuda") if cfg.GPU_IDS else torch.device("cpu")
+    #device = torch.device("cpu")
     embeddings_gallery = embeddings_gallery.to(device)
     embeddings = embeddings.to(device)
 
@@ -132,6 +133,6 @@ if __name__ == "__main__":
     SAVE_DIR.mkdir(exist_ok=True, parents=True)
 
     log.info(f"Saving results to {str(SAVE_DIR)}")
-    np.save(SAVE_DIR / "results.npy", out)
-    np.save(SAVE_DIR / "query_embeddings.npy", embeddings)
-    np.save(SAVE_DIR / "query_paths.npy", paths)
+    np.save(Path.joinpath(SAVE_DIR, "results.npy"), out)
+    np.save(Path.joinpath(SAVE_DIR, "query_embeddings.npy"), embeddings)
+    np.save(Path.joinpath(SAVE_DIR, "query_paths.npy"), paths)

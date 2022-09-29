@@ -17,5 +17,4 @@ from modelling.backbones.vit import deit_small_patch16_LS, deit_small_patch16_36
     
 model = CTLModel.load_from_checkpoint("./logs/df1/320_deit_small/train_ctl_model/version_102/checkpoints/epoch=26.ckpt",
                                       learning_rate=0.1)
-opt = model.optimizer.param_groups[0]["lr"].optimizers()
 print(opt)
